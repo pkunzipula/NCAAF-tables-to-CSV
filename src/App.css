@@ -1,5 +1,12 @@
+@import url("https://fonts.googleapis.com/css?family=Fresca&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
+  font-family: Fresca;
 }
 
 .App-logo {
