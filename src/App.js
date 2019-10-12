@@ -31,6 +31,7 @@ function App() {
 
     let awayTeam = [];
     let homeTeam = [];
+    let gameNumbers = [];
     let teamList = [];
     let scoreList = [];
     let oddsList = [];
@@ -42,6 +43,9 @@ function App() {
       homeTeam[index] = two;
     });
 
+    gameNumbers = awayTeam.concat(homeTeam);
+    gameNumbers.sort((a, b) => a - b);
+
     teams.forEach(team => {
       teamList.push(team.textContent);
     });
@@ -51,11 +55,11 @@ function App() {
     odds.forEach(odd => {
       oddsList.push(odd.textContent);
     });
-    for (let i = 0; i < teamList.length; i++) {
-      teamGrid += `${teamList[i]}; ${scoreList[i]}; ${oddsList[i]}\n`;
-    }
-    // setStuffsIn(teamGrid);
-    console.log(numbersList);
+    for (let i = 0; i < teamList.length; i++)
+      if (gameNumbers[i] < 1000) {
+        teamGrid += `${teamList[i]}; ${scoreList[i]}; ${oddsList[i]}\n`;
+      }
+    setStuffsIn(teamGrid);
   };
 
   return (
