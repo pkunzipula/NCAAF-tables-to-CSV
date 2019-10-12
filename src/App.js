@@ -29,22 +29,19 @@ function App() {
     let scores = workingDiv.querySelectorAll("div[id$='_final']");
     let odds = workingDiv.querySelectorAll("div[id^='_Div_Line_2']");
 
-    let numbersList = [];
+    let awayTeam = [];
+    let homeTeam = [];
     let teamList = [];
     let scoreList = [];
     let oddsList = [];
     let teamGrid = "";
     teamGrid = `Team; Final; Odds; S/U Points; Odds Points\n\n`;
-    for (let b = 0; b < numbers.length; b += 2) {
-      let [one, two] = numbers[b].innerHTML.split("<br>");
-      numbersList[b] = one;
-      numbersList[b + 1] = two;
-    }
+    numbers.forEach((number, index) => {
+      let [one, two] = number.innerHTML.split("<br>");
+      awayTeam[index] = one;
+      homeTeam[index] = two;
+    });
 
-    // for(let b = 0; b < numbers.length; b++) {
-    //   let [one, two] = numbers.textContent.split("<br>");
-    //   numbersList[b] =
-    // }
     teams.forEach(team => {
       teamList.push(team.textContent);
     });
