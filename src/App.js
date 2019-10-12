@@ -12,16 +12,39 @@ const copyToClipboard = () => {
 function App() {
   const [stuffsIn, setStuffsIn] = useState();
 
+  const clearIt = () => {
+    document.getElementById("stuffsIn").value = "";
+    setStuffsIn("");
+  };
+
   const convertItAll = textString => {
     let workingDiv = document.getElementById("setStuffsHere");
     workingDiv.innerHTML = textString;
+    if (!document.querySelectorAll("h3")[0]) {
+      setStuffsIn("");
+      return;
+    }
+    let numbers = workingDiv.querySelectorAll("td.alignRight");
     let teams = workingDiv.querySelectorAll(".oddsTeamWLink");
     let scores = workingDiv.querySelectorAll("div[id$='_final']");
     let odds = workingDiv.querySelectorAll("div[id^='_Div_Line_2']");
+
+    let numbersList = [];
     let teamList = [];
     let scoreList = [];
     let oddsList = [];
     let teamGrid = "";
+    teamGrid = `Team; Final; Odds; S/U Points; Odds Points\n\n`;
+    for (let b = 0; b < numbers.length; b += 2) {
+      let [one, two] = numbers[b].innerHTML.split("<br>");
+      numbersList[b] = one;
+      numbersList[b + 1] = two;
+    }
+
+    // for(let b = 0; b < numbers.length; b++) {
+    //   let [one, two] = numbers.textContent.split("<br>");
+    //   numbersList[b] =
+    // }
     teams.forEach(team => {
       teamList.push(team.textContent);
     });
@@ -34,7 +57,8 @@ function App() {
     for (let i = 0; i < teamList.length; i++) {
       teamGrid += `${teamList[i]}; ${scoreList[i]}; ${oddsList[i]}\n`;
     }
-    setStuffsIn(teamGrid);
+    // setStuffsIn(teamGrid);
+    console.log(numbersList);
   };
 
   return (
@@ -70,6 +94,24 @@ function App() {
           >
             Stuffs In
           </h1>
+          <button
+            css={css`
+              cursor: pointer;
+              padding: 0.2em 0.8em;
+              font-family: Fresca;
+              background: limegreen;
+              border: 0;
+              color: white;
+              font-size: 2em;
+              transition: all 0.2s;
+              &:hover {
+                background: crimson;
+              }
+            `}
+            onClick={clearIt}
+          >
+            Clear It
+          </button>
         </div>
         <textarea
           css={css`
