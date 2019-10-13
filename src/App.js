@@ -36,7 +36,8 @@ function App() {
     let scoreList = [];
     let oddsList = [];
     let teamGrid = "";
-    teamGrid = `Team; Final; Odds; S/U Points; Odds Points\n\n`;
+    let theDay = document.querySelectorAll("h3")[0].textContent;
+    teamGrid = `${theDay}\nTeam; Final; Odds; S/U Points; Odds Points\n\n`;
     numbers.forEach((number, index) => {
       let [one, two] = number.innerHTML.split("<br>");
       awayTeam[index] = one;
