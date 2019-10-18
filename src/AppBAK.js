@@ -20,90 +20,46 @@ function App() {
   const convertItAll = textString => {
     let workingDiv = document.getElementById("setStuffsHere");
     workingDiv.innerHTML = textString;
-    if (workingDiv.querySelectorAll("tr[class^='statistics_table_']")[0]) {
-      itsDonBest(workingDiv);
-    } else if (workingDiv.querySelectorAll("div.col-md-6")[0]) {
-      itsCompughter(workingDiv);
-    } else if (
-      workingDiv.querySelectorAll("div[class^='picksheet-table']")[0]
-    ) {
-      itsSportsLine(workingDiv);
-    }
-    return;
-  };
-
-  const itsCompughter = workingDiv => {
-    if (!document.querySelectorAll("h1")[0]) {
-      setStuffsIn("");
-      return;
-    }
-    let teams = workingDiv.querySelectorAll("div.col-md-6 td.col-md-2 a");
-    let points = workingDiv.querySelectorAll(
-      "div.col-md-6 tr:not(:last-child) td:last-child"
-    );
-    let teamGrid = "";
-    for (let i = 0; i < teams.length; i++) {
-      teamGrid += `${teams[i].textContent}, ${points[i].textContent}\n`;
-    }
-    setStuffsIn(teamGrid);
-  };
-
-  const itsSportsLine = workingDiv => {
-    if (!document.querySelectorAll("div.header")[0]) {
-      setStuffsIn("");
-      return;
-    }
-    let teams = workingDiv.querySelectorAll("a.data-row > meta");
-    let teamList = [];
-    teams.forEach(team => {
-      let metas = team.content;
-      let [away, home] = metas.split(" at ");
-      teamList.push(away, home);
-    });
-    let points = workingDiv.querySelectorAll("a.data-row .proj-score");
-    let teamGrid = "";
-    for (let i = 0; i < teams.length; i++) {
-      teamGrid += `${teamList[i]}, ${points[i].textContent.trim()}\n`;
-    }
-    // console.log(teamList);
-    setStuffsIn(teamGrid);
-  };
-
-  const itsDonBest = workingDiv => {
     if (!document.querySelectorAll("h3")[0]) {
       setStuffsIn("");
       return;
     }
-    let numbers = workingDiv.querySelectorAll(
-      "tr[class^='statistics_table_'] td:first-of-type"
-    );
-    let odds = workingDiv.querySelectorAll("td.oddsOpener div");
+    let numbers = workingDiv.querySelectorAll("td.alignRight");
     let teams = workingDiv.querySelectorAll(".oddsTeamWLink");
+    let scores = workingDiv.querySelectorAll("div[id$='_final']");
+    let odds = workingDiv.querySelectorAll("div[id^='_Div_Line_2']");
 
-    let numberList = [];
-    let oddList = [];
+    let awayTeam = [];
+    let homeTeam = [];
+    let gameNumbers = [];
     let teamList = [];
-
-    // let theDay = document.querySelectorAll("h3")[0].textContent;
-    // let teamGrid = `${theDay}\nGame; Opener; Team\n\n`;
+    let scoreList = [];
+    let oddsList = [];
     let teamGrid = "";
+    let theDay = document.querySelectorAll("h3")[0].textContent;
+    teamGrid = `${theDay}\nTeam; Final; Odds; S/U Points; Odds Points\n\n`;
+    numbers.forEach((number, index) => {
+      let [one, two] = number.innerHTML.split("<br>");
+      awayTeam[index] = one;
+      homeTeam[index] = two;
+    });
 
-    numbers.forEach(number => {
-      let [away, home] = number.innerHTML.split("<br>");
-      numberList.push(away, home);
-    });
-    odds.forEach(odd => {
-      let [away, home] = odd.innerHTML.split("<br>");
-      oddList.push(away, home);
-    });
+    gameNumbers = awayTeam.concat(homeTeam);
+    gameNumbers.sort((a, b) => a - b);
+
     teams.forEach(team => {
       teamList.push(team.textContent);
     });
-    for (let i = 0; i < numberList.length; i++) {
-      if (numberList[i] < 1000) {
-        teamGrid += `${numberList[i]}, ${oddList[i]}, ${teamList[i]}\n`;
+    scores.forEach(score => {
+      scoreList.push(score.textContent);
+    });
+    odds.forEach(odd => {
+      oddsList.push(odd.textContent);
+    });
+    for (let i = 0; i < teamList.length; i++)
+      if (gameNumbers[i] < 1000) {
+        teamGrid += `${teamList[i]}; ${scoreList[i]}; ${oddsList[i]}\n`;
       }
-    }
     setStuffsIn(teamGrid);
   };
 
