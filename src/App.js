@@ -74,11 +74,23 @@ function App() {
       setStuffsIn("");
       return;
     }
+    // let numbers = workingDiv.querySelectorAll(
+    //   "tr[class^='statistics_table_'] td:first-of-type"
+    // );
+
+    // let odds = workingDiv.querySelectorAll("td.oddsOpener div");
+    // let teams = workingDiv.querySelectorAll(".oddsTeamWLink");
+
     let numbers = workingDiv.querySelectorAll(
-      "tr[class^='statistics_table_'] td:first-of-type"
+      "tr td[class^='statistics_table_']:first-child"
     );
-    let odds = workingDiv.querySelectorAll("td.oddsOpener div");
-    let teams = workingDiv.querySelectorAll(".oddsTeamWLink");
+
+    let odds = workingDiv.querySelectorAll(
+      "tr td[class^='statistics_table_']:nth-child(10)"
+    );
+    let teams = workingDiv.querySelectorAll(
+      "tr td[class^='statistics_table_']:nth-child(2) a"
+    );
 
     let numberList = [];
     let oddList = [];
@@ -92,13 +104,16 @@ function App() {
       let [away, home] = number.innerHTML.split("<br>");
       numberList.push(away, home);
     });
-    odds.forEach(odd => {
-      let [away, home] = odd.innerHTML.split("<br>");
-      oddList.push(away, home);
-    });
     teams.forEach(team => {
-      teamList.push(team.textContent);
+      let [away, home] = team.innerHTML.split;
     });
+    // odds.forEach(odd => {
+    //   let [away, home] = odd.innerHTML.split("<br>");
+    //   oddList.push(away, home);
+    // });
+    // teams.forEach(team => {
+    //   teamList.push(team.textContent);
+    // });
     for (let i = 0; i < numberList.length; i++) {
       if (numberList[i] < 1000) {
         teamGrid += `${numberList[i]}, ${oddList[i]}, ${teamList[i]}\n`;
@@ -233,7 +248,7 @@ function App() {
       <div
         id="setStuffsHere"
         css={css`
-          display: none;
+          /* display: none; */
         `}
       ></div>
     </div>
